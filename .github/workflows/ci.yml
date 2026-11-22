@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        node: [18, 20, 22]
+        include:
+          - os: windows-latest
+            node: 20
+          - os: macos-latest
+            node: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - name: CLI smoke test
+        run: node packages/server/dist/cli.js --version && node packages/server/dist/cli.js tools
+
+  live:
+    # Real API smoke tests; allowed to fail because public APIs can rate limit CI runners.
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run test:live
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t fxcrypto-mcp .
+      - name: Health check
+        run: |
+          docker run -d --name fx -p 3000:3000 fxcrypto-mcp
+          for i in $(seq 1 20); do curl -fs localhost:3000/health && exit 0; sleep 1; done
+          docker logs fx; exit 1

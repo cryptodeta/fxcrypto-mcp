@@ -1,0 +1,32 @@
+{
+  "name": "fxcrypto-mcp-monorepo",
+  "private": true,
+  "type": "module",
+  "description": "Monorepo for fxcrypto-mcp: a fast, no-API-key currency and crypto MCP server.",
+  "license": "MIT",
+  "workspaces": [
+    "packages/core",
+    "packages/server"
+  ],
+  "engines": {
+    "node": ">=18.17"
+  },
+  "scripts": {
+    "build": "npm run build -w @fxcrypto/core && npm run build -w fxcrypto-mcp",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "test": "vitest run",
+    "test:live": "FXCRYPTO_LIVE=1 vitest run packages/server/test/live.test.ts",
+    "check": "npm run lint && npm run typecheck && npm run test && npm run build",
+    "start": "node packages/server/dist/cli.js",
+    "gen:regions": "node scripts/gen-regions.mjs"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.2.0",
+    "@types/node": "^20.14.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.0",
+    "vitest": "^3.2.0"
+  }
+}

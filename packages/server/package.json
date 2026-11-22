@@ -1,0 +1,61 @@
+{
+  "name": "fxcrypto-mcp",
+  "version": "0.1.0",
+  "description": "Fast, lightweight, no-API-key MCP server for currency conversion, exchange rates and crypto market data, with multi-source fallback.",
+  "type": "module",
+  "license": "MIT",
+  "author": "fxcrypto-mcp contributors",
+  "homepage": "https://github.com/cryptodeta/fxcrypto-mcp#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cryptodeta/fxcrypto-mcp.git",
+    "directory": "packages/server"
+  },
+  "bugs": {
+    "url": "https://github.com/cryptodeta/fxcrypto-mcp/issues"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "currency",
+    "exchange-rates",
+    "forex",
+    "crypto",
+    "bitcoin",
+    "coingecko",
+    "frankfurter",
+    "ai",
+    "llm",
+    "claude",
+    "cursor"
+  ],
+  "bin": {
+    "fxcrypto-mcp": "dist/cli.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18.17"
+  },
+  "scripts": {
+    "build": "tsup",
+    "prepack": "cp ../../README.md ../../LICENSE ."
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.0",
+    "zod": "^4.1.0"
+  },
+  "devDependencies": {
+    "@fxcrypto/core": "0.1.0"
+  }
+}
