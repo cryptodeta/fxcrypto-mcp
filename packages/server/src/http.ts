@@ -1,3 +1,4 @@
+import "./polyfill.js";
 import {
   createServer as createHttpServer,
   type IncomingMessage,

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import "./polyfill.js";
 import { createClient, formatPct, setDefaultLocale, toFxError } from "@fxcrypto/core";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { startHttpServer } from "./http.js";

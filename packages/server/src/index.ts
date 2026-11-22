@@ -1,3 +1,5 @@
+import "./polyfill.js";
+
 export * from "@fxcrypto/core";
 export { type HttpServerOptions, startHttpServer } from "./http.js";
 export { CLIENTS, configPath, installClient, serverEntry } from "./init.js";
