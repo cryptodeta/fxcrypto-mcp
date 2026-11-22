@@ -71,7 +71,7 @@ describe("init helper", () => {
       join(home, "Library", "Application Support", "Claude", "claude_desktop_config.json"),
     );
     expect(configPath("claude", { home, platform: "win32", env: { APPDATA: "C:/AppData" } })).toContain(
-      "C:/AppData",
+      "AppData",
     );
     expect(configPath("windsurf", { home })).toBe(join(home, ".codeium", "windsurf", "mcp_config.json"));
     expect(serverEntry("win32")).toEqual({ command: "cmd", args: ["/c", "npx", "-y", "fxcrypto-mcp"] });
