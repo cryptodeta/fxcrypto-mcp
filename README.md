@@ -240,6 +240,20 @@ const h = await fx.history({ from: "BTC", to: "EUR", days: 90 });
 console.log(h.stats);
 ```
 
+## Install from a registry
+
+Every release is published to three places (see [Releases](https://github.com/cryptodeta/fxcrypto-mcp/releases)):
+
+| Registry                  | Package                                                                                                     | Install                                                                   |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| npmjs.org                 | [`fxcrypto-mcp`](https://www.npmjs.com/package/fxcrypto-mcp)                                                | `npx -y fxcrypto-mcp` or `npm i -g fxcrypto-mcp`                          |
+| GitHub Packages           | [`@cryptodeta/fxcrypto-mcp`](https://github.com/cryptodeta/fxcrypto-mcp/pkgs/npm/fxcrypto-mcp)              | `npm i -g @cryptodeta/fxcrypto-mcp --registry=https://npm.pkg.github.com` |
+| GitHub Container Registry | [`ghcr.io/cryptodeta/fxcrypto-mcp`](https://github.com/cryptodeta/fxcrypto-mcp/pkgs/container/fxcrypto-mcp) | `docker pull ghcr.io/cryptodeta/fxcrypto-mcp:latest`                      |
+
+GitHub Packages needs a GitHub token with `read:packages` even for public packages
+(`npm login --scope=@cryptodeta --auth-type=legacy --registry=https://npm.pkg.github.com`).
+The npm tarball is also attached to every GitHub Release.
+
 ## Development
 
 ```bash
@@ -251,6 +265,18 @@ npx @modelcontextprotocol/inspector node packages/server/dist/cli.js
 
 The repo is an npm workspaces monorepo: `packages/core` (rate engine, no MCP dependency) and
 `packages/server` (MCP server, CLI). See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Releasing
+
+[`VERSION.md`](VERSION.md) holds the release version on its first line. To ship a release, add the notes to
+`CHANGELOG.md`, bump that line and push to `main`. The `Release` workflow tags `vX.Y.Z`, creates the GitHub
+Release and publishes to npmjs.org, GitHub Packages and ghcr.io only when the new version is greater than the
+latest tag; an equal or lower version is a green no-op. Package versions are synced from `VERSION.md`
+automatically (`node scripts/version.mjs sync` does the same locally).
+
+Maintainer setup: add an `NPM_TOKEN` repository secret (npm automation or granular token with publish
+rights). Without it the npmjs.org step is skipped with a warning; GitHub Packages and ghcr.io use the built-in
+`GITHUB_TOKEN`.
 
 ## Limitations
 
