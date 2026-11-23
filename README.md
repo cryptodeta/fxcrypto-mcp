@@ -54,7 +54,7 @@ npx -y fxcrypto-mcp convert 100 USD BDT
 npx -y fxcrypto-mcp price btc eth sol --vs usd,eur
 ```
 
-> Not yet on npm? Run from source: `git clone https://github.com/cryptodeta/fxcrypto-mcp && cd fxcrypto-mcp && npm install && npm run build`,
+> Prefer running from source? `git clone https://github.com/cryptodeta/fxcrypto-mcp && cd fxcrypto-mcp && npm install && npm run build`,
 > then use `node /path/to/fxcrypto-mcp/packages/server/dist/cli.js` wherever the configs below say `npx -y fxcrypto-mcp`.
 
 ## Client configuration
