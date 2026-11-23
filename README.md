@@ -7,7 +7,12 @@ precious metals and 15,000+ coins, with historical rates, charts, market data an
 It pulls from several free sources, falls back automatically when one is down or rate limited,
 and tells you where every number came from.
 
+[![npm](https://img.shields.io/npm/v/fxcrypto-mcp?logo=npm)](https://www.npmjs.com/package/fxcrypto-mcp)
+[![npm downloads](https://img.shields.io/npm/dm/fxcrypto-mcp)](https://www.npmjs.com/package/fxcrypto-mcp)
 [![CI](https://github.com/cryptodeta/fxcrypto-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/cryptodeta/fxcrypto-mcp/actions/workflows/ci.yml)
+[![Release](https://github.com/cryptodeta/fxcrypto-mcp/actions/workflows/release.yml/badge.svg)](https://github.com/cryptodeta/fxcrypto-mcp/actions/workflows/release.yml)
+[![GitHub release](https://img.shields.io/github/v/release/cryptodeta/fxcrypto-mcp)](https://github.com/cryptodeta/fxcrypto-mcp/releases)
+[![Docker](https://img.shields.io/badge/docker-ghcr.io%2Fcryptodeta%2Ffxcrypto--mcp-2496ED?logo=docker&logoColor=white)](https://github.com/cryptodeta/fxcrypto-mcp/pkgs/container/fxcrypto-mcp)
 ![license](https://img.shields.io/badge/license-MIT-blue)
 ![node](https://img.shields.io/badge/node-%3E%3D18.17-brightgreen)
 
@@ -16,6 +21,53 @@ You:    How much is 100 USD in Bangladeshi taka, and how did it move this month?
 Claude: $100.00 = BDT 12,488.22 (fawazahmed0 currency-api, 2026-11-22).
         Over 30 days USD/BDT rose 0.97%, from 123.68 to 124.88.
 ```
+
+## Install
+
+Requires Node.js 18.17 or newer. Published on [npmjs.org](https://www.npmjs.com/package/fxcrypto-mcp),
+[GitHub Packages](https://github.com/cryptodeta/fxcrypto-mcp/pkgs/npm/fxcrypto-mcp) and [ghcr.io](https://github.com/cryptodeta/fxcrypto-mcp/pkgs/container/fxcrypto-mcp);
+every [GitHub Release](https://github.com/cryptodeta/fxcrypto-mcp/releases) also has the npm tarball attached.
+
+```bash
+# Run without installing (npmjs.org)
+npx -y fxcrypto-mcp --help
+
+# Or install globally
+npm i -g fxcrypto-mcp
+fxcrypto-mcp --version
+
+# GitHub Packages (needs a GitHub token with read:packages, even for public packages)
+npm login --scope=@cryptodeta --auth-type=legacy --registry=https://npm.pkg.github.com
+npm i -g @cryptodeta/fxcrypto-mcp --registry=https://npm.pkg.github.com
+
+# Docker (Streamable HTTP on http://localhost:3000/mcp)
+docker run -d -p 3000:3000 ghcr.io/cryptodeta/fxcrypto-mcp
+```
+
+Add it to your AI app (more clients and options in [Client configuration](#client-configuration)):
+
+**Claude Desktop** (`claude_desktop_config.json`) and **Cursor** (`~/.cursor/mcp.json`):
+
+```json
+{
+  "mcpServers": {
+    "fxcrypto": { "command": "npx", "args": ["-y", "fxcrypto-mcp"] }
+  }
+}
+```
+
+**VS Code** (`.vscode/mcp.json`):
+
+```json
+{
+  "servers": {
+    "fxcrypto": { "type": "stdio", "command": "npx", "args": ["-y", "fxcrypto-mcp"] }
+  }
+}
+```
+
+Or let it write the config for you: `npx -y fxcrypto-mcp init claude` (also `cursor`, `vscode`, `windsurf`,
+`claude-code`, `all`).
 
 ## Why this one
 
@@ -239,20 +291,6 @@ console.log(r.formatted, r.source, r.asOf);
 const h = await fx.history({ from: "BTC", to: "EUR", days: 90 });
 console.log(h.stats);
 ```
-
-## Install from a registry
-
-Every release is published to three places (see [Releases](https://github.com/cryptodeta/fxcrypto-mcp/releases)):
-
-| Registry                  | Package                                                                                                     | Install                                                                   |
-| ------------------------- | ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
-| npmjs.org                 | [`fxcrypto-mcp`](https://www.npmjs.com/package/fxcrypto-mcp)                                                | `npx -y fxcrypto-mcp` or `npm i -g fxcrypto-mcp`                          |
-| GitHub Packages           | [`@cryptodeta/fxcrypto-mcp`](https://github.com/cryptodeta/fxcrypto-mcp/pkgs/npm/fxcrypto-mcp)              | `npm i -g @cryptodeta/fxcrypto-mcp --registry=https://npm.pkg.github.com` |
-| GitHub Container Registry | [`ghcr.io/cryptodeta/fxcrypto-mcp`](https://github.com/cryptodeta/fxcrypto-mcp/pkgs/container/fxcrypto-mcp) | `docker pull ghcr.io/cryptodeta/fxcrypto-mcp:latest`                      |
-
-GitHub Packages needs a GitHub token with `read:packages` even for public packages
-(`npm login --scope=@cryptodeta --auth-type=legacy --registry=https://npm.pkg.github.com`).
-The npm tarball is also attached to every GitHub Release.
 
 ## Development
 
